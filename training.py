@@ -15,13 +15,13 @@ num_points = 71
 num_features = 2
 hidden_features = 128
 out_features = 64
-learning_rate = 0.00000007
+learning_rate = 9e-8
 batch_size = 16
 
 # DATASET
 keypoints_model = 'mediapipe'
-dataset_name = 'AEC'
-relative_path = '../../ConnectingPoints/split'
+dataset_name = 'AEC-DGI156-DGI305'
+relative_path = '../ConnectingPoints/split'
 
 general_path = f'{relative_path}/{dataset_name}--{keypoints_model}'
 
@@ -52,6 +52,7 @@ trainer = pl.Trainer(callbacks=[ModelSummary(max_depth=-1),
                                 LearningRateMonitor(logging_interval='epoch'),
                                 EarlyStopping(monitor="val_loss_epoch", mode="min")],
                      #profiler="simple",
-                     logger = wandb,
-                     gpus=0)
+                     gpus=1,
+                     logger = wandb)
+
 trainer.fit(model, dataloader_train, dataloader_val) #ckpt_path="./lightning_logs/version_2/checkpoints/epoch=9-step=6880.ckpt",)
